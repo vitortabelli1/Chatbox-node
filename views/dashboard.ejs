@@ -5,119 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat de Downloads</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .chat-container {
-      width: 90%;
-      max-width: 450px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      padding: 20px;
-    }
-    .chat-box {
-      padding: 15px;
-      height: 300px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    .message {
-      max-width: 80%;
-      padding: 12px;
-      border-radius: 15px;
-      margin-bottom: 10px;
-      word-wrap: break-word;
-    }
-    .user-message {
-      align-self: flex-end;
-      background: #007bff;
-      color: white;
-    }
-    .bot-message {
-      align-self: flex-start;
-      background: #f1f1f1;
-    }
-    .input-container {
-      display: flex;
-      padding: 10px;
-      background: #fff;
-      border-top: 1px solid #ddd;
-    }
-    .input-container input {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 25px;
-      outline: none;
-      font-size: 16px;
-    }
-    .input-container button {
-      margin-left: 10px;
-      padding: 12px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .input-container button:hover {
-      background: #0056b3;
-    }
-    .bot-message a {
-      color: #007bff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .bot-message a:hover {
-      text-decoration: underline;
-    }
-    .topics-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 15px;
-      padding: 10px;
-    }
-    .topic {
-      width: 100%;
-      max-width: 300px;
-      padding: 8px 12px;
-      background: #007bff;
-      color: white;
-      border-radius: 25px;
-      text-align: center;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    .topic:hover {
-      background: #0056b3;
-      transform: scale(1.05);
-    }
-    .topic:active {
-      background: #004085;
-      transform: scale(1);
-    }
+    
   </style>
 </head>
 <body>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
+.chat-container {
+  width: 90%;
+  max-width: 450px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.chat-box {
+  padding: 15px;
+  height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  max-width: 80%;
+  padding: 12px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.user-message {
+  align-self: flex-end;
+  background: #009a6c; /* Verde Light */
+  color: white;
+}
+
+.bot-message {
+  align-self: flex-start;
+  background: #f1f1f1;
+}
+
+.input-container {
+  display: flex;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.input-container input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+  font-size: 16px;
+}
+
+.input-container button {
+  margin-left: 10px;
+  padding: 12px;
+  background: #ff7a00; /* Laranja Light */
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.input-container button:hover {
+  background: #e66a00;
+}
+
+.bot-message a {
+  color: #009a6c; /* Verde Light */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.bot-message a:hover {
+  text-decoration: underline;
+}
+
+.topics-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.topic {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  background: #009a6c; /* Verde Light */
+  color: white;
+  border-radius: 25px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.topic:hover {
+  background: #007c56;
+  transform: scale(1.05);
+}
+
+.topic:active {
+  background: #005c41;
+  transform: scale(1);
+}
 <div class="chat-container">
   <div class="chat-box" id="chatBox">
     <div class="message bot-message">Olá! Como posso ajudar?</div>
