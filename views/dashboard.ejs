@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat de Downloads</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      width: 90%;
+      max-width: 450px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 20px;
+    }
+    .chat-box {
+      padding: 15px;
+      height: 300px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .message {
+      max-width: 80%;
+      padding: 12px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      word-wrap: break-word;
+    }
+    .user-message {
+      align-self: flex-end;
+      background: #007bff;
+      color: white;
+    }
+    .bot-message {
+      align-self: flex-start;
+      background: #f1f1f1;
+    }
+    .input-container {
+      display: flex;
+      padding: 10px;
+      background: #fff;
+      border-top: 1px solid #ddd;
+    }
+    .input-container input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      outline: none;
+      font-size: 16px;
+    }
+    .input-container button {
+      margin-left: 10px;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .input-container button:hover {
+      background: #0056b3;
+    }
+    .bot-message a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .bot-message a:hover {
+      text-decoration: underline;
+    }
+    .topics-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      padding: 10px;
+    }
+    .topic {
+      width: 100%;
+      max-width: 300px;
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      border-radius: 25px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .topic:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+    .topic:active {
+      background: #004085;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-box" id="chatBox">
+    <div class="message bot-message">Olá! Como posso ajudar?</div>
+
+    <div class="topics-container">
+      <div class="topic" onclick="sendTopic('Dúvidas')">Dúvidas</div>
+      <div class="topic" onclick="sendTopic('Downloads')">Central de Software</div>
+      <div class="topic" onclick="sendTopic('Manuais')">Manuais</div>
+      <div class="topic" onclick="sendTopic('Artigos de Apoio')">Artigos de Apoio</div>
+    </div>
+
+  </div>
+
+  <div class="input-container">
+    <input type="text" id="userInput" placeholder="Digite aqui..." onkeypress="handleKeyPress(event)">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+</div>
+
+<script>
+  function sendTopic(topic) {
+    let chatBox = document.getElementById('chatBox');
+    let botMessage = document.createElement('div');
+    botMessage.className = 'message bot-message';
+
+    if (topic === 'Dúvidas') {
+      botMessage.innerHTML = `
+        Escolha uma das opções abaixo para mais informações:<br><br>
+        <div class="topic" onclick="sendSubTopic('Máquina com lentidão')">1 - Máquina com lentidão</div><br>
+        <div class="topic" onclick="sendSubTopic('Reset de Senha')">2 - Reset de Senha</div><br>
+        <div class="topic" onclick="sendSubTopic('Eletricistas')">3 - Eletricistas/Operação</div><br>
+        <div class="topic" onclick="sendSubTopic('Netskope')">4 - Netskope</div><br>
+        <div class="topic" onclick="sendSubTopic('Email/Outlook')">5 - Email/Outlook</div><br>
+        <div class="topic" onclick="sendSubTopic('Central de Softwares')">6 - Central de Softwares</div><br>
+        <div class="topic" onclick="sendSubTopic('Bloqueio de Conta')">7 - Bloqueio de Conta</div>
+      `;
+    } else if (topic === 'Manuais') {
+      botMessage.innerHTML = `
+        Escolha um manual para baixar:<br><br>
+        <div class="topic" onclick="downloadManual('www.google.com.br')">📘 Manual SAP</div><br>
+        <div class="topic" onclick="downloadManual('manual2.pdf')">📙 Manual SmallWord</div><br>
+        <div class="topic" onclick="downloadManual('manual3.pdf')">📗 Manual Pasta de Rede</div>
+      `;
+    } else if (topic === 'Downloads') {
+      botMessage.innerHTML = `
+        <strong>🔹 Central de Software 🔹</strong><br><br>
+        <em>Os principais downloads da Light podem ser encontrados em "Pesquisar" ao lado do ícone do Windows. Digite "Central de Software".</em><br><br>
+        <div class="topic" onclick="downloadSoftware('software1.exe')">💻 Power Bi</div><br>
+        <div class="topic" onclick="downloadSoftware('software2.exe')">🛠️ Google Earth Pro</div><br>
+        <div class="topic" onclick="downloadSoftware('software3.exe')">📧 SAP 770</div><br>
+        <div class="topic" onclick="downloadSoftware('software4.exe')">🔒 Visual Studio Code</div>
+      `;
+
+    } else if (topic === 'Artigos de Apoio') {
+      botMessage.innerHTML = `
+        <strong>🔹 Artigo de Apoio 🔹</strong><br><br>
+        <em> As principais duvidas estão aqui, do dia a dia do Service Desk, confira abaixo: </em><br><br>
+        <div class="topic" onclick="sendSubTopic('Tela de fundo da maquina não atualizou')">Tela de fundo da maquina não atualizou</div><br>
+        <div class="topic" onclick="downloadSoftware('software2.exe')">Meu email consta com erro 500<br>
+      `;
+    } else {
+      botMessage.textContent = `Você escolheu o tópico: ${topic}.`;
+    }
+
+    chatBox.appendChild(botMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function sendSubTopic(subTopic) {
+    let chatBox = document.getElementById('chatBox');
+    let botMessage = document.createElement('div');
+    botMessage.className = 'message bot-message';
+
+    let resposta = '';
+
+    if (subTopic === 'Máquina com lentidão') {
+      resposta = `
+          <div style="font-weight: bold; color: #007bff;">🛠️ Ação Inicial:</div>
+          <p>De certo modo, a primeira coisa a se fazer é a reinicialização do equipamento.</p>
+          <p><strong>🔧 Sugestão:</strong> Após a reinicialização, sugerimos que o usuário digite <em>"Ajustar a aparência e o desempenho do Windows"</em> no campo de pesquisa.</p>
+          <p>Em seguida, selecione as opções abaixo:</p>
+          <ul style="margin-left: 20px;">
+            <li>🔲 <strong>Mostrar miniaturas em vez de ícones</strong></li>
+            <li>🔲 <strong>Usar fontes de tela com cantos arredondados</strong></li>
+            <li>🔲 <strong>Usar sombras subjacentes para rótulos de ícones na área de trabalho</strong></li>
+          </ul>
+          <p style="font-size: 14px; color: #555;">Caso a lentidão persista, entre em contato com nossa equipe de suporte.</p>
+          
+          <div style="font-weight: bold; color: #28a745; margin-top: 20px;">💡 Dica de Desempenho:</div>
+          <p>Uma outra dica para melhorar o desempenho do seu equipamento é:</p>
+          <p><strong>1. Digite na barra de pesquisa do Windows:</strong> <em>%temp%</em></p>
+          <p><strong>2. Apague todos os arquivos temporários encontrados.</strong></p>
+          <p><strong>3. Após isso, reinicie sua máquina para otimizar o desempenho.</strong></p>
+          <p style="font-size: 14px; color: #555;">Essa ação pode liberar espaço no seu sistema e melhorar o desempenho.</p>
+      `;
+    } else if (subTopic === 'Reset de Senha') {
+      resposta = `
+          <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+            <p style="font-size: 16px; margin: 10px 0;">Para trocar sua senha de rede, acesse o link abaixo:</p>
+            <a href="http://troquesuasenha.light.com.br" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+              <div style="display: flex; align-items: center;">
+                <img src="https://img.icons8.com/ios-filled/50/000000/key.png" alt="Senha" style="margin-right: 8px;"/> 
+                <span>troquesuasenha.light.com.br</span>
+              </div>
+            </a>
+            <p style="font-size: 14px; color: #555; margin-top: 10px;">Observação: Orientamos a trocar sua senha de rede de trinta a trinta dias para que sua senha não venha a expirar.</p>
+          </div>
+      `;
+
+    } else if (subTopic === 'Tela de fundo da maquina não atualizou') {
+    resposta = `
+      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+        <p style="font-size: 16px; font-weight: bold; color: #007bff;">💻 Atualização da Tela de Fundo</p>
+        <p>Para atualização de sua tela de fundo do Windows, de acordo com as políticas da Light, solicito que siga os seguintes procedimentos:</p>
+        <ol>
+          <li><strong>1. Abra o Prompt de Comando:</strong> Digite "cmd" na barra de pesquisa do Windows e abra o Prompt de Comando.</li>
+          <li><strong>2. Execute o comando:</strong> No Prompt de Comando, digite o seguinte comando:</li>
+          <pre style="background-color: #e9ecef; padding: 8px; font-size: 14px; border-radius: 4px;">gpupdate /force</pre>
+          <li><strong>3. Aguarde a atualização:</strong> O comando irá forçar uma atualização das políticas de grupo.</li>
+        </ol>
+        <p style="font-size: 14px; color: #555;">Isso deve corrigir a atualização da sua tela de fundo. Caso o problema persista, entre em contato com o suporte técnico.</p>
+      </div>
+    `;
+    } else if (subTopic === 'Eletricistas') {
+      resposta = `
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+          <p style="font-size: 16px; font-weight: bold;">⚡ Informações para cargos de Eletricistas e Operação</p>
+          <p>Para casos de acesso ao email, clique no link abaixo:</p>
+          <a href="https://correio.light.com.br" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+            <div style="display: flex; align-items: center;">
+              <img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Email" style="margin-right: 8px;"/> 
+              <span>Correio da Light</span>
+            </div>
+          </a>
+          <p style="font-size: 14px; color: #555; margin-top: 10px;">Caso tenha problemas de acesso, entre em contato com o suporte técnico.</p>
+        </div>
+      `;
+        
+      
+    } else if (subTopic === 'Email/Outlook') {
+      resposta = `
+       <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0;">
+          <p style="font-size: 16px; font-weight: bold; color: #007bff;">📧 Solução para problemas no Email/Outlook</p>
+          <p>Quando o email apresenta um triângulo amarelo e não carregar a caixa de entrada, siga estes passos:</p>
+          <ol>
+            <li><strong>🔄 Reinicializar a máquina:</strong> Muitas vezes isso resolve o problema.</li> <br>
+            <li><strong>🔗 Verificar acessos:</strong> Acesse <a href="https://outlook.office.com" target="_blank">Outlook Web</a> para testar.</li><br>
+            <li><strong>🔑 Autenticação:</strong> Verifique seu acesso no <a href="https://sistema.light.com.br" target="_blank">Sistema Light</a>.</li><br>
+            <li><strong>🖥️ Limpeza de Cache DNS:</strong> Na barra de pesquisa do Windows, digite "cmd" e abra o Prompt de Comando.<br>
+            Em seguida, digite: <code>ipconfig /flushdns</code> e pressione Enter.</li>
+          </ol>
+          <p style="font-size: 14px; color: #555;">Caso o problema persista, entre em contato com o suporte técnico.</p>
+        </div>
+      `;
+
+      
+    } else {
+      resposta = `Você escolheu: ${subTopic}.`;
+    }
+    
+
+    botMessage.innerHTML = resposta;
+    chatBox.appendChild(botMessage);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function downloadManual(manual) {
+    if (manual === 'www.google.com.br') {
+      window.open('https://www.dropbox.com/scl/fi/1i0xfcm4pl9nr255fmaop/Manual-Mapear-M-dulos-SAP-2024.pdf?rlkey=7dhqo34lh1gkwc1uihqxiy3z0&st=hl85qlsx&dl=0', '_blank');
+    } else {
+      alert('Baixando ' + manual);
+    }
+  }
+
+  function downloadSoftware(software) {
+    alert("Baixando " + software);
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<body>
+
+        <div class="chat-container">
+          <div class="chat-box" id="chatBox">
+            <div class="message bot-message">Olá! Como posso ajudar?</div>
+        
+            <div class="topics-container">
+              <div class="topic" onclick="sendTopic('Dúvidas')">Dúvidas</div>
+              <div class="topic" onclick="sendTopic('Downloads')">Central de Software</div>
+              <div class="topic" onclick="sendTopic('Manuais')">Manuais</div>
+              <div class="topic" onclick="sendTopic('Artigos de Apoio')">Artigos de Apoio</div>
+            </div>
+        
+          </div>
+        
+          <div class="input-container">
+            <input type="text" id="userInput" placeholder="Digite aqui..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Enviar</button>
+          </div>
+        </div>
+        
+        <script>
+          function sendTopic(topic) {
+            let chatBox = document.getElementById('chatBox');
+            let botMessage = document.createElement('div');
+            botMessage.className = 'message bot-message';
+        
+            if (topic === 'Dúvidas') {
+              botMessage.innerHTML = `Escolha uma das opções abaixo para mais informações...`;
+            } else if (topic === 'Manuais') {
+              botMessage.innerHTML = `Escolha um manual para baixar...`;
+            } else {
+              botMessage.textContent = `Você escolheu o tópico: ${topic}.`;
+            }
+        
+            chatBox.appendChild(botMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
+        
+          function sendMessage() {
+            let userInput = document.getElementById('userInput').value;
+            if (userInput.trim().toLowerCase() === 'sap') {
+              sendManualSAP();
+            } else {
+              let chatBox = document.getElementById('chatBox');
+              let userMessage = document.createElement('div');
+              userMessage.className = 'message user-message';
+              userMessage.textContent = userInput;
+              chatBox.appendChild(userMessage);
+              chatBox.scrollTop = chatBox.scrollHeight;
+              document.getElementById('userInput').value = ''; // Limpar o campo
+            }
+          }
+        
+          function sendManualSAP() {
+            let chatBox = document.getElementById('chatBox');
+            let botMessage = document.createElement('div');
+            botMessage.className = 'message bot-message';
+            botMessage.innerHTML = `
+              Escolha um manual para baixar:<br><br>
+              <div class="topic" onclick="downloadManual('www.google.com.br')">📘 Manual SAP</div><br>
+            `;
+            chatBox.appendChild(botMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
+        
+          function downloadManual(manual) {
+            if (manual === 'www.google.com.br') {
+              window.open('https://www.dropbox.com/scl/fi/1i0xfcm4pl9nr255fmaop/Manual-Mapear-M-dulos-SAP-2024.pdf?rlkey=7dhqo34lh1gkwc1uihqxiy3z0&st=hl85qlsx&dl=0', '_blank');
+            } else {
+              alert('Baixando ' + manual);
+            }
+          }
+        
+          function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+              sendMessage();
+            }
+          }
+        </script>
+        
+        
+</body>
